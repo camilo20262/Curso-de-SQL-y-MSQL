@@ -38,3 +38,10 @@ CREATE TABLE IF NOT EXISTS bill_products (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+create table example (
+example_id integer unsigned primary key auto_increment,
+quantity int not null default 1,
+price float not null,
+total float as (quantity * price)
+);

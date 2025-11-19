@@ -433,3 +433,11 @@ INSERT INTO products (sku, name, slug, description, price) VALUES ('SKU097', 'Pr
 INSERT INTO products (sku, name, slug, description, price) VALUES ('SKU098', 'Product 98', 'product-98', 'Description 98', 129.50);
 INSERT INTO products (sku, name, slug, description, price) VALUES ('SKU099', 'Product 99', 'product-99', 'Description 99', 130.99);
 INSERT INTO products (sku, name, slug, description, price) VALUES ('SKU100', 'Product 100', 'product-100', 'Description 100', 132.25);
+
+-- Fin de la insercion de datos en la tabla products
+-- --------------------------------------------------
+-- Insercion de datos en la example
+INSERT INTO example (quantity, price) VALUES (10, 20.30);
+INSERT INTO example (quantity, price) VALUES (1, 70.50);
+INSERT INTO example (quantity, price) VALUES (3, 10);
+INSERT INTO example (quantity, price) VALUES (5, 13.90);
