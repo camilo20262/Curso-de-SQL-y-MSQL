@@ -3,3 +3,8 @@ alter table clients add column country varchar(2) default 'mx' not null;
 
 
 alter table products add column description_length integer as (length(description));
+
+
+alter table bill_products add column total float as (
+price * quantity * (1 -discount/100)
+) after discount;
