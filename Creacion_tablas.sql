@@ -45,3 +45,12 @@ quantity int not null default 1,
 price float not null,
 total float as (quantity * price)
 );
+
+--- IGNORE ---
+
+--- Table for daily sales summary
+CREATE TABLE ventas_diarias_m (
+    `date` DATE NOT NULL UNIQUE,
+    `count` INTEGER,
+    total FLOAT
+);

@@ -28,4 +28,12 @@ group by 1
 order by 1 asc; 
 
 
+-- Insert daily sales summary into ventas_diarias_m
+INSERT INTO ventas_diarias_m (`date`, `count`, total)
+SELECT 
+    DATE(date_added),
+    COUNT(bill_product_id),
+    SUM(total)
+FROM bill_products
+GROUP BY 1;
 
