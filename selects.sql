@@ -22,7 +22,10 @@ LIMIT 10;
 
 -- Total sales by date
 select date(date_added) as fecha, count(bill_product_id), sum(quantity),
-avg(discount),max(discount), max(total)sum(total)
+avg(discount),max(discount), max(total),sum(total)
 from bill_products
 group by 1
 order by 1 asc; 
+
+
+
