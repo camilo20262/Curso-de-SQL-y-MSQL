@@ -37,3 +37,37 @@ SELECT
 FROM bill_products
 GROUP BY 1;
 
+
+-- Select bill products for clients from Argentina
+SELECT 
+    bp.bill_product_id,
+    bp.date_added,
+    bp.total
+FROM 
+    bill_products AS bp
+    LEFT JOIN bills AS b ON bp.bill_id = b.bill_id
+    LEFT JOIN clients AS c ON b.client_id = c.client_id
+WHERE 
+    c.country = 'AR' and  c.gender = 'M'
+order by 3 asc;
+
+
+--subconsulta
+
+SELECT 
+    bp.bill_product_id,
+    bp.date_added,
+    bp.total 
+FROM 
+    bill_products AS bp
+WHERE 
+    bp.bill_id IN (
+        SELECT 
+            b.bill_id 
+        FROM 
+            bills AS b
+            LEFT JOIN clients AS c ON b.client_id = c.client_id
+        WHERE 
+            c.country = 'AR' and  c.gender  = 'M'   
+    )
+ORDER BY 2 ASC;
