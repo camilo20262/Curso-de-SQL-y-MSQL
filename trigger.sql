@@ -1,4 +1,4 @@
--- Create trigger to update materialized view on insert
+-- Create trigger after insert on bill_products to update ventas_diarias_m materialized view
 DELIMITER |
 -- 
 CREATE TRIGGER matview_insert
@@ -14,6 +14,21 @@ BEGIN
     ON DUPLICATE KEY UPDATE
     count = VALUES(count),
     total = VALUES(total);
-END
-|
+END |
+DELIMITER ; 
+
+
+----- Create trigger after delete on bill_products to delete  ventas_diarias_m materialized view
+DELIMITER |
+CREATE TRIGGER MathView_delete
+AFTER DELETE ON bill_products
+FOR EACH ROW
+BEGIN
+    UPDATE ventas_diarias_m
+    SET date = date(old.date_added),
+        count = (SELECT COUNT(*) FROM bill_products WHERE date(date_added) = date(old.date_added)),
+        total = (SELECT SUM(total) FROM bill_products WHERE date(date_added) = date(old.date_added))
+    WHERE date = date(old.date_added);
+END |
+
 DELIMITER ; 
