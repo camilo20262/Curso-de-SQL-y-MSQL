@@ -38,20 +38,39 @@ DELIMITER ;
 
 -- Create trigger after update on bill_products to update  ventas_diarias_m materialized view
 DELIMITER |
-CREATE TRIGGER MathView_update
+CREATE TRIGGER matview_update
 AFTER UPDATE ON bill_products
 FOR EACH ROW
 BEGIN
-    IF date(NEW.date_added) <> date(OLD.date_added) THEN
+    -- Si cambió la fecha, actualizar primero el día viejo
+    IF DATE(NEW.date_added) <> DATE(OLD.date_added) THEN
         UPDATE ventas_diarias_m
-        SET count = (SELECT COUNT(*) FROM bill_products WHERE date(date_added) = date(OLD.date_added)),
-            total = (SELECT SUM(total) FROM bill_products WHERE date(date_added) = date(OLD.date_added))
-        WHERE date = date(OLD.date_added);
+        SET count = (
+                SELECT COUNT(*) 
+                FROM bill_products 
+                WHERE DATE(date_added) = DATE(OLD.date_added)
+            ),
+            total = (
+                SELECT SUM((price * quantity) - discount)
+                FROM bill_products
+                WHERE DATE(date_added) = DATE(OLD.date_added)
+            )
+        WHERE `date` = DATE(OLD.date_added);
     END IF;
-    
+
+    -- Actualizar el día nuevo
     UPDATE ventas_diarias_m
-    SET count = (SELECT COUNT(*) FROM bill_products WHERE date(date_added) = date(NEW.date_added)),
-        total = (SELECT SUM(total) FROM bill_products WHERE date(date_added) = date(NEW.date_added))
-    WHERE date = date(NEW.date_added);
-EN |
+    SET count = (
+            SELECT COUNT(*) 
+            FROM bill_products 
+            WHERE DATE(date_added) = DATE(NEW.date_added)
+        ),
+        total = (
+            SELECT SUM((price * quantity) - discount)
+            FROM bill_products
+            WHERE DATE(date_added) = DATE(NEW.date_added)
+        )
+    WHERE `date` = DATE(NEW.date_added);
+END |
 DELIMITER ;
+
