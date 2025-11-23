@@ -452,3 +452,10 @@ GROUP BY 1
 ON DUPLICATE KEY UPDATE
 count = (SELECT COUNT(*) FROM bill_products WHERE DATE(date_added) = date),
 total = (SELECT SUM(total) FROM bill_products WHERE DATE(date_added) = date);
+
+--- --------------------------------------------------
+-- Insercion de datos en la tabla bill_products
+INSERT INTO bill_products (bill_id, product_id, price, date_added)
+VALUES (1234, 100, 23.988, '2025-03-20 11:11:11');
+INSERT INTO bill_products (bill_id, product_id, price, date_added)
+VALUES (12345, 1000, 23.9889, '2025-03-20 11:11:11');
