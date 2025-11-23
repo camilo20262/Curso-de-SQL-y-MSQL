@@ -32,3 +32,26 @@ BEGIN
 END |
 
 DELIMITER ; 
+
+--
+
+
+-- Create trigger after update on bill_products to update  ventas_diarias_m materialized view
+DELIMITER |
+CREATE TRIGGER MathView_update
+AFTER UPDATE ON bill_products
+FOR EACH ROW
+BEGIN
+    IF date(NEW.date_added) <> date(OLD.date_added) THEN
+        UPDATE ventas_diarias_m
+        SET count = (SELECT COUNT(*) FROM bill_products WHERE date(date_added) = date(OLD.date_added)),
+            total = (SELECT SUM(total) FROM bill_products WHERE date(date_added) = date(OLD.date_added))
+        WHERE date = date(OLD.date_added);
+    END IF;
+    
+    UPDATE ventas_diarias_m
+    SET count = (SELECT COUNT(*) FROM bill_products WHERE date(date_added) = date(NEW.date_added)),
+        total = (SELECT SUM(total) FROM bill_products WHERE date(date_added) = date(NEW.date_added))
+    WHERE date = date(NEW.date_added);
+EN |
+DELIMITER ;
