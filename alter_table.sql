@@ -8,3 +8,7 @@ alter table products add column description_length integer as (length(descriptio
 alter table bill_products add column total float as (
 price * quantity * (1 -discount/100)
 ) after discount;
+
+
+--
+ALTER TABLE clients ADD COLUMN bill_count INTEGER;      
