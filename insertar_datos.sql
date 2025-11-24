@@ -441,3 +441,21 @@ INSERT INTO example (quantity, price) VALUES (10, 20.30);
 INSERT INTO example (quantity, price) VALUES (1, 70.50);
 INSERT INTO example (quantity, price) VALUES (3, 10);
 INSERT INTO example (quantity, price) VALUES (5, 13.90);
+
+-- Fin de la insercion de datos en la tabla example
+-- --------------------------------------------------
+-- Insercion de datos en la tabla ventas_diarias_m
+INSERT INTO ventas_diarias_m (date, count, total)
+SELECT DATE(date_added), COUNT(bill_product_id), SUM(total)
+FROM bill_products
+GROUP BY 1
+ON DUPLICATE KEY UPDATE
+count = (SELECT COUNT(*) FROM bill_products WHERE DATE(date_added) = date),
+total = (SELECT SUM(total) FROM bill_products WHERE DATE(date_added) = date);
+
+--- --------------------------------------------------
+-- Insercion de datos en la tabla bill_products
+INSERT INTO bill_products (bill_id, product_id, price, date_added)
+VALUES (1234, 100, 23.988, '2025-03-20 11:11:11');
+INSERT INTO bill_products (bill_id, product_id, price, date_added)
+VALUES (12345, 1000, 23.9889, '2025-03-20 11:11:11');
