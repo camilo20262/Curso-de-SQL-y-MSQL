@@ -17,3 +17,8 @@ WHERE product_id = 10;
 UPDATE products 
 SET data = JSON_REPLACE(data, '$.brand', 'Banana') 
 WHERE product_id = 10;
+
+-- Eliminar un par clave-valor del objeto JSON
+UPDATE products 
+SET data = JSON_REMOVE(data, '$.HDSize') 
+WHERE product_id = 10;
