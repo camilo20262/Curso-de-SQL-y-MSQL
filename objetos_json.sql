@@ -22,3 +22,8 @@ WHERE product_id = 10;
 UPDATE products 
 SET data = JSON_REMOVE(data, '$.HDSize') 
 WHERE product_id = 10;
+
+-- Agregar un nuevo par clave-valor al objeto JSON
+UPDATE products 
+SET data = JSON_SET(data, '$.color', 'black') 
+WHERE product_id = 10;
