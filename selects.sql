@@ -9,7 +9,7 @@ select country, gender, count(*) as total
 from clients
 group by country,gender
 order by total;
-
+--HOLS
 
 -- Select all from example
 select length(description) as longitud_description
